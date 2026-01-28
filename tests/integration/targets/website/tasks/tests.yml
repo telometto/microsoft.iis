@@ -179,13 +179,13 @@
 - name: verify preload is enabled
   ansible.windows.win_shell: |
     Import-Module WebAdministration
-    (Get-ItemProperty -LiteralPath "IIS:\Sites\{{ test_website_name }}" -Name applicationDefaults.preloadEnabled)
+    (Get-ItemProperty -LiteralPath "IIS:\Sites\{{ test_website_name }}" -Name applicationDefaults.preloadEnabled)."applicationDefaults.preloadEnabled"
   register: preload_check
 
 - assert:
     that:
     - website is changed
-    - preload_check.stdout | trim | bool
+    - preload_check.stdout | trim == 'True'
 
 - name: enable preload for website (idempotent)
   microsoft.iis.website:
@@ -196,13 +196,13 @@
 - name: verify preload is enabled (idempotent)
   ansible.windows.win_shell: |
     Import-Module WebAdministration
-    (Get-ItemProperty -LiteralPath "IIS:\Sites\{{ test_website_name }}" -Name applicationDefaults.preloadEnabled)
+    (Get-ItemProperty -LiteralPath "IIS:\Sites\{{ test_website_name }}" -Name applicationDefaults.preloadEnabled)."applicationDefaults.preloadEnabled"
   register: preload_check
 
 - assert:
     that:
     - website is not changed
-    - preload_check.stdout | trim | bool
+    - preload_check.stdout | trim == 'True'
 
 - name: disable preload for website
   microsoft.iis.website:
@@ -213,13 +213,13 @@
 - name: verify preload is disabled
   ansible.windows.win_shell: |
     Import-Module WebAdministration
-    (Get-ItemProperty -LiteralPath "IIS:\Sites\{{ test_website_name }}" -Name applicationDefaults.preloadEnabled)
+    (Get-ItemProperty -LiteralPath "IIS:\Sites\{{ test_website_name }}" -Name applicationDefaults.preloadEnabled)."applicationDefaults.preloadEnabled"
   register: preload_check
 
 - assert:
     that:
     - website is changed
-    - not (preload_check.stdout | trim | bool)
+    - preload_check.stdout | trim == 'False'
 
 - name: disable preload for website (idempotent)
   microsoft.iis.website:
@@ -230,10 +230,10 @@
 - name: verify preload is disabled (idempotent)
   ansible.windows.win_shell: |
     Import-Module WebAdministration
-    (Get-ItemProperty -LiteralPath "IIS:\Sites\{{ test_website_name }}" -Name applicationDefaults.preloadEnabled)
+    (Get-ItemProperty -LiteralPath "IIS:\Sites\{{ test_website_name }}" -Name applicationDefaults.preloadEnabled)."applicationDefaults.preloadEnabled"
   register: preload_check
 
 - assert:
     that:
     - website is not changed
-    - not (preload_check.stdout | trim | bool)
+    - preload_check.stdout | trim == 'False'
