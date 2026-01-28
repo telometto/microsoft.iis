@@ -181,7 +181,7 @@
     $ProgressPreference = 'SilentlyContinue'
     Import-Module WebAdministration -ErrorAction Stop
     $site_path = "IIS:\Sites\{{ test_website_name }}"
-    $preload = (Get-ItemProperty -LiteralPath $site_path -Name applicationDefaults.preloadEnabled)."applicationDefaults.preloadEnabled"
+    $preload = (Get-ItemProperty -LiteralPath $site_path).applicationDefaults.preloadEnabled
     Write-Host "Preload value type: $($preload.GetType().FullName)"
     Write-Host "Preload value: $preload"
     Write-Host "Preload as string: '$preload'"
@@ -196,7 +196,7 @@
     $ProgressPreference = 'SilentlyContinue'
     Import-Module WebAdministration -ErrorAction Stop
     $site_path = "IIS:\Sites\{{ test_website_name }}"
-    $preload = (Get-ItemProperty -LiteralPath $site_path -Name applicationDefaults.preloadEnabled)."applicationDefaults.preloadEnabled"
+    $preload = (Get-ItemProperty -LiteralPath $site_path).applicationDefaults.preloadEnabled
     [Console]::Write($preload)
   register: preload_check
 
@@ -216,7 +216,7 @@
     $ProgressPreference = 'SilentlyContinue'
     Import-Module WebAdministration -ErrorAction Stop
     $site_path = "IIS:\Sites\{{ test_website_name }}"
-    $preload = (Get-ItemProperty -LiteralPath $site_path -Name applicationDefaults.preloadEnabled)."applicationDefaults.preloadEnabled"
+    $preload = (Get-ItemProperty -LiteralPath $site_path).applicationDefaults.preloadEnabled
     [Console]::Write($preload)
   register: preload_check
 
@@ -236,7 +236,7 @@
     $ProgressPreference = 'SilentlyContinue'
     Import-Module WebAdministration -ErrorAction Stop
     $site_path = "IIS:\Sites\{{ test_website_name }}"
-    $preload = (Get-ItemProperty -LiteralPath $site_path -Name applicationDefaults.preloadEnabled)."applicationDefaults.preloadEnabled"
+    $preload = (Get-ItemProperty -LiteralPath $site_path).applicationDefaults.preloadEnabled
     [Console]::Write($preload)
   register: preload_check
 
@@ -256,7 +256,7 @@
     $ProgressPreference = 'SilentlyContinue'
     Import-Module WebAdministration -ErrorAction Stop
     $site_path = "IIS:\Sites\{{ test_website_name }}"
-    $preload = (Get-ItemProperty -LiteralPath $site_path -Name applicationDefaults.preloadEnabled)."applicationDefaults.preloadEnabled"
+    $preload = (Get-ItemProperty -LiteralPath $site_path).applicationDefaults.preloadEnabled
     [Console]::Write($preload)
   register: preload_check
 
