@@ -169,3 +169,71 @@
     that:
     - website is not changed
     - website_info.site[0].application_pool == test_apppool
+
+- name: enable preload for website
+  microsoft.iis.website:
+    name: "{{ test_website_name }}"
+    preload_enabled: true
+  register: website
+
+- name: verify preload is enabled
+  ansible.windows.win_shell: |
+    Import-Module WebAdministration
+    (Get-ItemProperty -LiteralPath "IIS:\Sites\{{ test_website_name }}" -Name applicationDefaults.preloadEnabled)
+  register: preload_check
+
+- assert:
+    that:
+    - website is changed
+    - preload_check.stdout | trim | bool
+
+- name: enable preload for website (idempotent)
+  microsoft.iis.website:
+    name: "{{ test_website_name }}"
+    preload_enabled: true
+  register: website
+
+- name: verify preload is enabled (idempotent)
+  ansible.windows.win_shell: |
+    Import-Module WebAdministration
+    (Get-ItemProperty -LiteralPath "IIS:\Sites\{{ test_website_name }}" -Name applicationDefaults.preloadEnabled)
+  register: preload_check
+
+- assert:
+    that:
+    - website is not changed
+    - preload_check.stdout | trim | bool
+
+- name: disable preload for website
+  microsoft.iis.website:
+    name: "{{ test_website_name }}"
+    preload_enabled: false
+  register: website
+
+- name: verify preload is disabled
+  ansible.windows.win_shell: |
+    Import-Module WebAdministration
+    (Get-ItemProperty -LiteralPath "IIS:\Sites\{{ test_website_name }}" -Name applicationDefaults.preloadEnabled)
+  register: preload_check
+
+- assert:
+    that:
+    - website is changed
+    - not (preload_check.stdout | trim | bool)
+
+- name: disable preload for website (idempotent)
+  microsoft.iis.website:
+    name: "{{ test_website_name }}"
+    preload_enabled: false
+  register: website
+
+- name: verify preload is disabled (idempotent)
+  ansible.windows.win_shell: |
+    Import-Module WebAdministration
+    (Get-ItemProperty -LiteralPath "IIS:\Sites\{{ test_website_name }}" -Name applicationDefaults.preloadEnabled)
+  register: preload_check
+
+- assert:
+    that:
+    - website is not changed
+    - not (preload_check.stdout | trim | bool)
