@@ -207,8 +207,7 @@ Try {
         # Set preload enabled if specified
         if ($null -ne $preload_enabled) {
             $site_path = "IIS:\Sites\$($site.Name)"
-            $current_preload = (Get-ItemProperty -LiteralPath $site_path `
-                    -Name applicationDefaults.preloadEnabled)."applicationDefaults.preloadEnabled"
+            $current_preload = (Get-ItemProperty -LiteralPath $site_path).applicationDefaults.preloadEnabled
             If ($current_preload -ne $preload_enabled) {
                 Set-ItemProperty -LiteralPath $site_path `
                     -Name applicationDefaults.preloadEnabled -Value $preload_enabled -WhatIf:$check_mode
