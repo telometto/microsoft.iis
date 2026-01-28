@@ -176,6 +176,21 @@
     preload_enabled: true
   register: website
 
+- name: debug - check actual preload value
+  ansible.windows.win_shell: |
+    $ProgressPreference = 'SilentlyContinue'
+    Import-Module WebAdministration -ErrorAction Stop
+    $site_path = "IIS:\Sites\{{ test_website_name }}"
+    $preload = (Get-ItemProperty -LiteralPath $site_path -Name applicationDefaults.preloadEnabled)."applicationDefaults.preloadEnabled"
+    Write-Host "Preload value type: $($preload.GetType().FullName)"
+    Write-Host "Preload value: $preload"
+    Write-Host "Preload as string: '$preload'"
+  register: debug_output
+
+- name: show debug output
+  ansible.builtin.debug:
+    var: debug_output.stdout_lines
+
 - name: verify preload is enabled
   ansible.windows.win_shell: |
     $ProgressPreference = 'SilentlyContinue'
