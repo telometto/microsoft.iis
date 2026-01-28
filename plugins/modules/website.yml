@@ -153,7 +153,7 @@ DOCUMENTATION:
         - Specifies whether application preloading is enabled for the website.
         - When V(true), IIS will automatically initialize the application when the application pool starts or when a configuration change is detected.
         - This is useful for reducing the initial response time for the first request to the application.
-        - For this to work effectively, the application pool should have O(startMode) set to V(AlwaysRunning).
+        - For this to work effectively, the associated application pool (see M(microsoft.iis.web_app_pool)) should have C(startMode=AlwaysRunning).
       type: bool
       required: false
     site_id:
